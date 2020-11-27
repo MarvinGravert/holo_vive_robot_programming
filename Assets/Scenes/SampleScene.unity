@@ -448,7 +448,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ipTCPHost: 192.168.137.1
   portTCPHost: 5005
-  StatusTextManager: {fileID: 1438746611}
+  StatusTextManager: {fileID: 1438746612}
 --- !u!65 &1309814589
 BoxCollider:
   m_ObjectHideFlags: 0

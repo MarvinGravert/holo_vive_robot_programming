@@ -6,7 +6,7 @@ using System.Threading;
 using UnityEngine;
 
 using System.Globalization;
-
+using TMPro;
 
 #if !UNITY_EDITOR
 using System.Threading.Tasks;
@@ -17,7 +17,7 @@ public class tcpScript : MonoBehaviour
     public String ipTCPHost;
     public String portTCPHost;
 
-    public GameObject StatusTextManager;
+    public  TextMeshPro StatusTextManager;
    
 
     private Vector3 position;
@@ -66,7 +66,7 @@ public class tcpScript : MonoBehaviour
 #endif
     {
 #if UNITY_EDITOR
-        StatusTextManager.GetComponent<TextMesh>().text = "UWP TCP client used in Unity!";
+        StatusTextManager.text = "UWP TCP client used in Unity!";
 #else
         try
         {
@@ -107,7 +107,7 @@ public class tcpScript : MonoBehaviour
             writer = new StreamWriter(stream) { AutoFlush = true };
 
             RestartExchange();
-            StatusTextManager.GetComponent<TextMesh>().text = "Connected!";
+            StatusTextManager.text = "Connected!";
             connected = true;
         }
         catch (Exception e)
@@ -141,13 +141,14 @@ public class tcpScript : MonoBehaviour
 
     void Start()
     {
-        StatusTextManager.GetComponent<TextMesh>().text = "asdf";
+        StatusTextManager.text = "asdf";
         Connect(ipTCPHost, portTCPHost);
         //Connect("192.168.178.44", "5005");//Laptop at home
         //Connect("192.168.43.152", "5005");//Hotspot
         //Connect("192.168.43.138", "5005");//Alienware
         //axisList = new List<GameObject>() { xAxis, yAxis, zAxis, xRotation, yRotation, zRotation };
-        StatusTextManager.GetComponent<TextMesh>().text = "sdf";
+        //StatusTextManager.GetComponent<TextMesh>().text = "sdf";
+        StatusTextManager.text = "con";
     }
 
     // Update is called once per frame
@@ -158,11 +159,11 @@ public class tcpScript : MonoBehaviour
         //}
         if (connected == false)
         {
-            StatusTextManager.GetComponent<TextMesh>().text = "not connected";
+            StatusTextManager.text = "not connected";
         }
         if (connected == true)
         {
-            StatusTextManager.GetComponent<TextMesh>().text = "connected";
+            StatusTextManager.text = "connected";
         }
         //if (lastPacket != null)
         //{
