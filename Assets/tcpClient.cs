@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
 using UnityEngine;
 using System;
+using TMPro;
+using UnityEngine.Events;
 //use as hololens requires this
 #if !UNITY_EDITOR
 using System.Threading.Tasks;
@@ -12,20 +15,37 @@ using System.Threading.Tasks;
 
 /*
  * NOTES: 
- * This is a client
- * It requires the server to be already up and running when this
- * script executes
- * Write the server ont eh correct port and ip
- * 
- * 
- * 
- * 
+ * This module acts as an central TCP/IP hub
+ * After connecting all received messages are propagated to all registered listeners
+ * And messages from other modules also registered are sent back
+ * The attached text message block updates with the current status of the connection
+ * Status:
+ * - Connecting
+ * - Connected to xxx:xx
+ * - Disconnected
  */
+public class tcpMessageReceived:MonoBehaviour
+{
+    float num = 1;
+    public float getNum()
+    {
+        return this.num;
+    }
+    public void setNum(float val) { this.num = val; } 
+
+}
 public class tcpClient : MonoBehaviour
 {
+    /*----------------
+    *DEFINE VARIABLES
+    *----------------
+    */
+    private TextMeshPro status_text_field; 
     //String Variable that will be sent over to the server
     [SerializeField]
     public string clientMessage;
+    [System.Serializable]
+    public class _UnityEventTCP_IP : UnityEvent<tcpMessageReceived> { }
 #if !UNITY_EDITOR
     //Used to determine whether we'll be using the Unity editor or a Hololens
     private bool _useUWP = true;
@@ -44,10 +64,12 @@ public class tcpClient : MonoBehaviour
     private Byte[] bytes = new Byte[256]; //storage for stuff to be send to server
     private StreamWriter writer; //write on the stream socket
     private StreamReader reader; //read of the socket
-    // Start is called before the first frame update
+
+
     public void Start()
     {
-        Connect("#.#.#.#", "####"); //connect to address and port specified
+        status_text_field = this.gameObject.GetComponent<TextMeshPro>();
+        Connect("s3a-wks-024", "15005"); //connect to address and port specified
         ExchangePackets();//send message to the server probably use the byte array
     }
     public void Connect(string host, string port)
@@ -105,6 +127,7 @@ public class tcpClient : MonoBehaviour
             reader = new StreamReader(stream);
             writer = new StreamWriter(stream) { AutoFlush = true };
             successStatus = "Connected!";
+            Debug.Log("connected");
         }
         catch (Exception e)
         {
@@ -130,25 +153,53 @@ public class tcpClient : MonoBehaviour
             successStatus = null;
         }*/
     }
+    //public void ExchangePackets()
+    //{
+    //    try
+    //    {
+    //        if (clientMessage == "Ping")
+    //        {
+    //            writer.Write("Ping");
+    //        }
+    //        else if (clientMessage == "Start Game")
+    //        {
+    //            writer.Write("Start Game");
+    //        }
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        Debug.Log(e.ToString());
+    //    }
+    //}
     public void ExchangePackets()
     {
-        try
+        while (!exchangeStopRequested)
         {
-            if (clientMessage == "Ping")
+            if (writer == null || reader == null) continue;
+            exchanging = true;
+
+            writer.Write("X\n");
+            //Debug.Log("Sent data!");
+            string received = null;
+
+#if UNITY_EDITOR
+            byte[] bytes = new byte[client.SendBufferSize];
+            int recv = 0;
+            while (true)
             {
-                writer.Write("Ping");
+                recv = stream.Read(bytes, 0, client.SendBufferSize);
+                received += Encoding.UTF8.GetString(bytes, 0, recv);
+                if (received.EndsWith("\n")) break;
             }
-            else if (clientMessage == "Start Game")
-            {
-                writer.Write("Start Game");
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e.ToString());
-        }
-    }
-    public void StopExchange()
+#else
+            received = reader.ReadLine();
+#endif
+
+            lastPacket = received;
+            //Debug.Log("Read data: " + received);
+
+            exchanging = false;
+            public void StopExchange()
     {
         exchangeStopRequested = true;
 #if UNITY_EDITOR
@@ -166,7 +217,8 @@ public class tcpClient : MonoBehaviour
             exchangeTask.Wait();
             socket.Dispose();
             writer.Dispose();
-            reader.Dispose();            socket = null;
+            reader.Dispose();           
+            socket = null;
             exchangeTask = null;
         }
 #endif
@@ -180,3 +232,4 @@ public class tcpClient : MonoBehaviour
         StopExchange();
     }
 }
+     
