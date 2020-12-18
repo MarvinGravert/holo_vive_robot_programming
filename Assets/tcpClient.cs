@@ -23,15 +23,16 @@ using System.Threading.Tasks;
  * - Connecting
  * - Connected to xxx:xx
  * - Disconnected
+ * https://medium.com/datadriveninvestor/connecting-the-microsoft-hololens-and-raspberry-pi3b-58665032964c
  */
 public class tcpMessageReceived:MonoBehaviour
 {
     float num = 1;
-    public float getNum()
+    public float GetNum()
     {
         return this.num;
     }
-    public void setNum(float val) { this.num = val; } 
+    public void SetNum(float val) { this.num = val; } 
 
 }
 public class tcpClient : MonoBehaviour
@@ -69,7 +70,7 @@ public class tcpClient : MonoBehaviour
     public void Start()
     {
         status_text_field = this.gameObject.GetComponent<TextMeshPro>();
-        Connect("s3a-wks-024", "15005"); //connect to address and port specified
+        Connect("192.168.43.49", "15004"); //connect to address and port specified s3a-wks-024
         ExchangePackets();//send message to the server probably use the byte array
     }
     public void Connect(string host, string port)
@@ -94,7 +95,9 @@ public class tcpClient : MonoBehaviour
         errorStatus = "UWP TCP client used in Unity!";
 #else
         try {
-            if (exchangeTask != null) StopExchange();
+            if (exchangeTask != null){
+                StopExchange();
+            }
             socket = new Windows.Networking.Sockets.StreamSocket();
             Windows.Networking.HostName serverHost = new
                 Windows.Networking.HostName(host);
@@ -126,10 +129,12 @@ public class tcpClient : MonoBehaviour
             stream = client.GetStream();
             reader = new StreamReader(stream);
             writer = new StreamWriter(stream) { AutoFlush = true };
+
+            RestartExchange();
             successStatus = "Connected!";
             Debug.Log("connected");
         }
-        catch (Exception e)
+        catch (Exception e) 
         {
             errorStatus = e.ToString();
         }
@@ -144,14 +149,31 @@ public class tcpClient : MonoBehaviour
 
     // Update is called once per frame
     public void Update() {
-        /*if(errorStatus != null){
+        status_text_field.text = successStatus;
+        if (errorStatus != null)
+        {
             Debug.Log(errorStatus);
             errorStatus = null;
         }
-        if (successStatus != null){
+        if (successStatus != null)
+        {
             Debug.Log(successStatus);
             successStatus = null;
-        }*/
+        }
+        Debug.Log("updating now");
+    }
+    public void RestartExchange()
+    {
+#if UNITY_EDITOR
+        if (exchangeThread != null) StopExchange();
+        exchangeStopRequested = false;
+        exchangeThread = new System.Threading.Thread(ExchangePackets);
+        exchangeThread.Start();
+#else
+        if (exchangeTask != null) StopExchange();
+        exchangeStopRequested = false;
+        exchangeTask = Task.Run(() => ExchangePackets());
+#endif
     }
     //public void ExchangePackets()
     //{
@@ -175,9 +197,12 @@ public class tcpClient : MonoBehaviour
     {
         while (!exchangeStopRequested)
         {
-            if (writer == null || reader == null) continue;
+            if (writer == null || reader == null)
+            {
+                continue;
+            }
             exchanging = true;
-
+            Debug.Log("Writer call");
             writer.Write("X\n");
             //Debug.Log("Sent data!");
             string received = null;
@@ -189,21 +214,24 @@ public class tcpClient : MonoBehaviour
             {
                 recv = stream.Read(bytes, 0, client.SendBufferSize);
                 received += Encoding.UTF8.GetString(bytes, 0, recv);
-                if (received.EndsWith("\n")) break;
+                break;//if (received.EndsWith("\n")) break;
             }
 #else
             received = reader.ReadLine();
 #endif
 
             lastPacket = received;
-            //Debug.Log("Read data: " + received);
+            Debug.Log("Read data: " + received);
 
             exchanging = false;
-            public void StopExchange()
+            break;
+        }
+    }
+    public void StopExchange()
     {
         exchangeStopRequested = true;
 #if UNITY_EDITOR
-        if (exchangeThread != null)
+        if (exchangeThread != null) 
         {
             exchangeThread.Abort();
             stream.Close();
