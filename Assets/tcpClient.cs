@@ -70,7 +70,7 @@ public class tcpClient : MonoBehaviour
     public void Start()
     {
         status_text_field = this.gameObject.GetComponent<TextMeshPro>();
-        Connect("192.168.43.49", "15004"); //connect to address and port specified s3a-wks-024
+        Connect("192.168.43.153", "15004"); //connect to address and port specified s3a-wks-024
         ExchangePackets();//send message to the server probably use the byte array
     }
     public void Connect(string host, string port)
