@@ -70,7 +70,8 @@ public class tcpClient : MonoBehaviour
     public void Start()
     {
         status_text_field = this.gameObject.GetComponent<TextMeshPro>();
-        Connect("192.168.43.153", "15004"); //connect to address and port specified s3a-wks-024
+        //Connect("192.168.43.153", "15004"); //connect to address and port specified s3a-wks-024
+        Connect("127.0.0.1", "15004"); //connect to address and port specified s3a-wks-024
         ExchangePackets();//send message to the server probably use the byte array
     }
     public void Connect(string host, string port)
@@ -160,7 +161,7 @@ public class tcpClient : MonoBehaviour
             Debug.Log(successStatus);
             successStatus = null;
         }
-        Debug.Log("updating now");
+        //Debug.Log("updating now");
     }
     public void RestartExchange()
     {
@@ -202,7 +203,7 @@ public class tcpClient : MonoBehaviour
                 continue;
             }
             exchanging = true;
-            Debug.Log("Writer call");
+            //Debug.Log("Writer call");
             writer.Write("X\n");
             //Debug.Log("Sent data!");
             string received = null;
@@ -214,7 +215,8 @@ public class tcpClient : MonoBehaviour
             {
                 recv = stream.Read(bytes, 0, client.SendBufferSize);
                 received += Encoding.UTF8.GetString(bytes, 0, recv);
-                break;//if (received.EndsWith("\n")) break;
+                if (received.EndsWith("\n")) break;
+                //break;//if (received.EndsWith("\n")) break;
             }
 #else
             received = reader.ReadLine();

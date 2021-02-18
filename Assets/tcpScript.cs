@@ -107,7 +107,7 @@ public class tcpScript : MonoBehaviour
             writer = new StreamWriter(stream) { AutoFlush = true };
 
             RestartExchange();
-            StatusTextManager.text = "Connected!";
+            StatusTextManager.text = "Connected2!";
             connected = true;
         }
         catch (Exception e)
@@ -163,14 +163,15 @@ public class tcpScript : MonoBehaviour
         }
         if (connected == true)
         {
-            StatusTextManager.text = "connected";
+            //StatusTextManager.text = "connecte3d";
         }
         //if (lastPacket != null)
         //{
         //    ReportDataToTrackingManager(lastPacket);
         //    StatusTextManager.GetComponent<TextMesh>().text = position.ToString("F4") + "\n" + rotation.ToString("F4");
         //}
-
+        Debug.Log("Read data: " + lastPacket);
+        StatusTextManager.text = lastPacket;
 
     }
     private void ReportDataToTrackingManager(string data)
@@ -217,8 +218,6 @@ public class tcpScript : MonoBehaviour
 #endif
 
             lastPacket = received;
-            //Debug.Log("Read data: " + received);
-
             exchanging = false;
         }
     }
