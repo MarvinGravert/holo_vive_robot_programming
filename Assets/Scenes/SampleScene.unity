@@ -506,6 +506,7 @@ GameObject:
   - component: {fileID: 1309814590}
   - component: {fileID: 1309814589}
   - component: {fileID: 1309814588}
+  - component: {fileID: 1309814592}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -535,7 +536,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309814586}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c34db55a7ad7c804e9d319904d6ffad0, type: 3}
   m_Name: 
@@ -603,6 +604,30 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309814586}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1309814592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309814586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1ede59e041fa44419174b26be203b84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ipTCPHost: 127.0.0.1
+  portTCPHost: 15004
+  StatusTextManager: {fileID: 0}
+  referenceObject: {fileID: 0}
+  controller: {fileID: 0}
+  xAxis: {fileID: 0}
+  yAxis: {fileID: 0}
+  zAxis: {fileID: 0}
+  xRotation: {fileID: 0}
+  yRotation: {fileID: 0}
+  zRotation: {fileID: 0}
+  incrementStepSize: 0
 --- !u!1 &1408798597
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,7 +1043,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sample text
+  m_text: 'Sample '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
