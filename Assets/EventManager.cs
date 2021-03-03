@@ -4,15 +4,31 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 
-
+// I have adapted this script from the source found below:
 // https://stackoverflow.com/questions/42034245/unity-eventmanager-with-delegate-instead-of-unityevent/42034899#42034899
-//Re-usable structure/ Can be a class to. Add all parameters you need inside it
+/*
+ * This script implements the EventManager who triggers the callback function of the listener when the associated event is triggerd 
+ * This eventManager is implemented using the Singleton pattern thus only one can exist at the same time it is initialised on startup
+ * 
+ * Events can register and deregister itself using the "StartListening" "StopListening"- Methods 
+ * Events are triggerd via TriggerEvent
+ * 
+ * Events are referenced via a stringname 
+ * 
+ * All events pass the EventParam structure which is defined below:
+ * It includes the parameters which are set for the individual streams
+ * Not all parameters have to be set and it should be clear for every event which parameters are expected to be set
+ * This list can be extended fairly easily
+ */
+
 public struct EventParam
 {
-    public string param1;
-    public int param2;
-    public float param3;
-    public bool param4;
+    //this strcuture
+    public string tcpIPMessage;
+    public string status;
+    public Vector3 controllerPosition;
+    public Quaternion controllerRotation;
+    public Dictionary<string, float> buttonState; // boolean Values are encoded as 0.0 and 1.0
 }
 //Main EventManager who keeps a dictionary of all events and their registered listeners. Other functions cann call its public methods to register themselves inside
 public class EventManager : MonoBehaviour
