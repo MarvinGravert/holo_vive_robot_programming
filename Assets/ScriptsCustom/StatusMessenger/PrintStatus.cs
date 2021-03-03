@@ -15,7 +15,6 @@ public class PrintStatus : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void OnEnable()
     {
 
@@ -30,6 +29,7 @@ public class PrintStatus : MonoBehaviour
     
     void setNewStatus(EventParam newStatus)
     {
+        Debug.Log("new status received");
         statusTextManager.text = newStatus.status;
     }
 }

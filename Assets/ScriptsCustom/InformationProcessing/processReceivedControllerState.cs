@@ -22,6 +22,7 @@ public class processReceivedControllerState : MonoBehaviour
     public string statusEventName;
     public string buttonStateEventName;
     public string controllerPoseEventName;
+    public string fullControllerStateEventName;
 
     private Dictionary<string, float> buttonState;
     private Vector3 position;
@@ -54,8 +55,8 @@ public class processReceivedControllerState : MonoBehaviour
 
     void ParseControllerInformation(EventParam eventParam)
     {
-        Debug.Log("New Controller State Received");
-        Debug.Log(eventParam.tcpIPMessage);
+        //Debug.Log("New Controller State Received");
+        //Debug.Log(eventParam.tcpIPMessage);
         /*
          * PARSE DATA
          * strucuture is as follows
@@ -135,7 +136,12 @@ public class processReceivedControllerState : MonoBehaviour
                 EventManager.TriggerEvent(statusEventName, newStatus);
             }
         }
-        
+        /*
+         * FULL CONTROLLER STATE DEBUGGING PURPOSES ONLY
+         */
+        //just adding the buttonstate to the newPose
+        newPose.buttonState = buttonState;
+        EventManager.TriggerEvent(fullControllerStateEventName, newPose);
     }
     //https://www.codeproject.com/Tips/1240454/How-to-Convert-Right-Handed-to-Left-Handed-Coordin
     private Vector3 ConvertRightHandedToLeftHandedVector(Vector3 rightHandedVector)

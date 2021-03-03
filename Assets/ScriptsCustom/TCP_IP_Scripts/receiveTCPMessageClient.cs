@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -48,6 +48,7 @@ public class receiveTCPMessageClient : MonoBehaviour
 
     private EventParam eventParam; // structure which will be send to the EventManager to propagate as argument to callback functions
 
+    public int updateInterval;
     
 #if !UNITY_EDITOR
     private bool _useUWP = true;
@@ -181,6 +182,7 @@ public class receiveTCPMessageClient : MonoBehaviour
 
     public void ExchangePackets()
     {
+
         while (!exchangeStopRequested)
         {
             if (writer == null || reader == null) continue;
@@ -206,9 +208,10 @@ public class receiveTCPMessageClient : MonoBehaviour
 
             lastPacket = received;
             exchanging = false; // to be replaced as not used atm
+            Thread.Sleep(updateInterval);
         }
     }
-
+    
     public void StopExchange()
     {
         exchangeStopRequested = true;
