@@ -32,7 +32,7 @@ public class PrintControllerState : MonoBehaviour
     {
         //https://stackoverflow.com/questions/3871760/convert-dictionarystring-string-to-semicolon-separated-string-in-c-sharp
         string s = string.Join("\n", newState.buttonState.Select(x => x.Key + "=" + x.Value).ToArray());
-        string state = newState.controllerPosition.ToString("F4") + "\n" + newState.controllerRotation.ToString("F4") + "\n" + s;
+        string state = newState.position.ToString("F4") + "\n" + newState.rotation.ToString("F4") + "\n" + s;
         statusTextManager.text = state;
     }
 }

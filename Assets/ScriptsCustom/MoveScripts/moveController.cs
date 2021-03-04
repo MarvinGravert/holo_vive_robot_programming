@@ -24,7 +24,7 @@ public class MoveController : MonoBehaviour
     {
         Vector3 refPos = referenceObject.transform.position;
         Quaternion refRot = referenceObject.transform.rotation;
-        this.transform.position = refPos + newPose.controllerPosition;
-        this.transform.rotation = newPose.controllerRotation * refRot;
+        this.transform.position = refPos + newPose.position;
+        this.transform.rotation = newPose.rotation * refRot;
     }
 }

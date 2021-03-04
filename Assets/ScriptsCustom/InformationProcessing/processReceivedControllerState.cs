@@ -118,8 +118,8 @@ public class processReceivedControllerState : MonoBehaviour
         newButtonState = new EventParam();
 
         newButtonState.buttonState = buttonState;
-        newPose.controllerPosition = position;
-        newPose.controllerRotation = rotation;
+        newPose.position = position;
+        newPose.rotation = rotation;
         //controller Pose
         EventManager.TriggerEvent(controllerPoseEventName, newPose);
         //buttonState
