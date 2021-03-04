@@ -13,6 +13,8 @@ public class NotifyPoseEvent : MonoBehaviour
         Quaternion rotation = this.gameObject.transform.rotation;
 
         pose = new EventParam();
-        
+        pose.position = position;
+        pose.rotation = rotation;
+        EventManager.TriggerEvent(objectPoseInformationEventName, pose);
     }
 }
