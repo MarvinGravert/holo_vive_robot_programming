@@ -482,8 +482,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6eb3e71fa2308488eb6cd172b8896d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  referenceObject: {fileID: 963194225}
-  newControllerPoseEventName: controllerpose
 --- !u!1 &567298656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,8 +1049,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6eb3e71fa2308488eb6cd172b8896d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  referenceObject: {fileID: 963194225}
-  newControllerPoseEventName: controllerpose
 --- !u!1001 &1152186859
 PrefabInstance:
   m_ObjectHideFlags: 0

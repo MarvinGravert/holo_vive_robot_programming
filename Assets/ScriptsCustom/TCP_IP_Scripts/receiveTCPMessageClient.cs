@@ -190,6 +190,7 @@ public class receiveTCPMessageClient : MonoBehaviour
 
             writer.Write("X\n"); //to signify to server that we want new information
             string received = null;
+            string latestInfo = null;
 
 #if UNITY_EDITOR
             // read into buffer until we receive a "\n"
@@ -199,14 +200,20 @@ public class receiveTCPMessageClient : MonoBehaviour
             {
                 recv = stream.Read(bytes, 0, client.SendBufferSize);
                 received += Encoding.UTF8.GetString(bytes, 0, recv);
-                if (received.EndsWith("\n")) break;
+                if (received.EndsWith("\n")) 
+                {
+                    latestInfo=received;
+                    break;
+
+                }
+                
             }
             //the following will work in UWP as there is already a function that reads until we receive a "\n"
 #else
             received = reader.ReadLine();
 #endif
 
-            lastPacket = received;
+            lastPacket = latestInfo;
             exchanging = false; // to be replaced as not used atm
             Thread.Sleep(updateInterval);
         }
