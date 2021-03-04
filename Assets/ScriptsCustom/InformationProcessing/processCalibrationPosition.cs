@@ -5,11 +5,17 @@ using UnityEngine;
 public class processCalibrationPosition : MonoBehaviour
 {
     public string calibrationPositionEventName;
+    public string sendCalibrationEventName;
 
     void ProcessPositionDataToString(EventParam pose)
     {
-        string positionAsString= string.Join(",", pose.position);
-        Debug.Log(positionAsString);
+        char[] charsToTrim = { '(', ' ', ')' };//hack because im too lazy to find the proper method to parse into string without bracket
+        string positionAsString= string.Join(",", pose.position).Trim(charsToTrim);//without trim this results in (x,y,z). 
+        string rotationAsString = string.Join(",", pose.rotation).Trim(charsToTrim);
+        string poseAsString = positionAsString + ":" + rotationAsString;
+        EventParam poseString = new EventParam();
+        poseString.tcpIPMessage = poseAsString;
+        EventManager.TriggerEvent(sendCalibrationEventName, poseString);
     }
     void OnEnable()
     {
