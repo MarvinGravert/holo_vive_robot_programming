@@ -47,7 +47,96 @@ public class MoveViaButtons : MonoBehaviour
         {
             fineIncrementMode = !fineIncrementMode;
         }
+        if (triggerButton == true)
+        {
+            //change target Axis
+            //first current highlight disable if moveObjectFlag is set
+            Debug.Log("here we go");
+            if (moveObjectFlag == false)
+            {
+                //if not true no axis is highlighed thus just increase counter
+                currentAxisNum++;
+                if (currentAxisNum > 5)
+                {
+                    currentAxisNum = 0;
+                }
+            }
+            else
+            {
 
+                if (currentAxisNum < 3)//the translationelements have subelemnents
+                {
+                    
+                    foreach (Renderer r in axisList[currentAxisNum].GetComponentsInChildren<Renderer>())
+                    {
+                        r.material.color = Color.white;
+                    }
+                }
+                else
+                {
+                    axisList[currentAxisNum].GetComponent<Renderer>().material.color = Color.white;
+                }
+                currentAxisNum++;
+                //now highlight the current one
+                if (currentAxisNum > 5)
+                {
+                    currentAxisNum = 0;
+                }
+                if (currentAxisNum < 3)
+                {
+                    foreach (Renderer r in axisList[currentAxisNum].GetComponentsInChildren<Renderer>())
+                    {
+                        r.material.color = Color.red;
+                    }
+                }
+                else
+                {
+                    axisList[currentAxisNum].GetComponent<Renderer>().material.color = Color.red;
+                }
+
+
+
+            }
+        }
+
+        if (gripButton == true && moveObjectFlag == true)
+        {
+            //disable moving
+            moveObjectFlag = false;
+            //remove highlighting
+            if (currentAxisNum < 3)
+            {
+                foreach (Renderer r in axisList[currentAxisNum].GetComponentsInChildren<Renderer>())
+                {
+                    r.material.color = Color.white;
+                }
+            }
+            else
+            {
+                axisList[currentAxisNum].GetComponent<Renderer>().material.color = Color.white;
+            }
+
+
+        }
+
+
+        if (gripButton == true && moveObjectFlag == false)
+        {
+            //enable moving
+            moveObjectFlag = true;
+            //highlight axis
+            if (currentAxisNum < 3)
+            {
+                foreach (Renderer r in axisList[currentAxisNum].GetComponentsInChildren<Renderer>())
+                {
+                    r.material.color = Color.red;
+                }
+            }
+            else
+            {
+                axisList[currentAxisNum].GetComponent<Renderer>().material.color = Color.red;
+            }
+        }
         if (moveObjectFlag == true)
         {
             if (fineIncrementMode == false)
