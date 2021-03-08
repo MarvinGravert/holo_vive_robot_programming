@@ -60,14 +60,15 @@ public class processReceivedControllerState : MonoBehaviour
         /*
          * PARSE DATA
          * strucuture is as follows
-         * x,y,z:w,i,j,k:x_trackpad:trigger,trackpad_pressed, menuButton,grip_button:status
+         * x,y,z:w,i,j,k:x_trackpad,y_trackpad:trigger,trackpad_pressed, menuButton,grip_button:status
          * 
          */
 
         var parts = eventParam.tcpIPMessage.Split(':');
         var positionData = parts[0].Split(',');
         var rotationData = parts[1].Split(',');
-        var x_trackpad = parts[2];
+        var x_trackpad = parts[2].Split(',')[0];
+        var y_trackpad = parts[2].Split(',')[1];
         var listButtonChanged = parts[3].Split(',');
         var status = parts[4];
 
@@ -109,7 +110,6 @@ public class processReceivedControllerState : MonoBehaviour
         buttonState["trackpadPressed"] = Convert.ToSingle(bool.Parse(listButtonChanged[1]));     
         buttonState["menuButton"] = Convert.ToSingle(bool.Parse(listButtonChanged[2]));     
         buttonState["gripButton"] = Convert.ToSingle(bool.Parse(listButtonChanged[3]));
-
         /*
          * TRIGGER EVENTS
          */
