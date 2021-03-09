@@ -16,217 +16,151 @@ public class MoveViaButtons : MonoBehaviour
     public GameObject zRotation;
 
     private List<GameObject> axisList;
-    public float incrementStepSize;
 
-    private bool moveObjectFlag = false;
+
     private int currentAxisNum = 0;
 
-    private bool fineIncrementMode = false;//2 modes for increment input one for fine second one for rough
+    private bool lastTriggerButtonState=false; //assume that the button is not pressed 
+    private float increment = 0.02f;//values will be changed between 0.05f and 0.001f via a slider
+    private bool changeAxis = false;
 
+    /*
+     *  This script is implemnting the logic to move an object in 6D depending on the input from the Vive Controller
+     *  The basic idea is as follows:
+     *  Object is only moved when the trackpad is pressed and for a value set via a slider. Direction depends on the trackpad position
+    * An axis is choosen via the trigger button. Initially its set to the x axis. The cycle is x-y-z-Rx-Ry-Rz
+    * Direction is done via checking the angle on the circle that is the trackpad. If the user is pushing in the upper diagonal half its positive direction otherwise negative
+    * The increment is set via a slider
+    * The current axis is highlighted
+    * 
+    * The change is only done on a change of the trigger when its going from not pressed to pressed.
+    */
+
+
+    void readButtonStateAndMove(EventParam buttonState)
+    {
+
+        float x_trackpad = buttonState.buttonState["x_trackpad"];
+        float y_trackpad = buttonState.buttonState["y_trackpad"];
+        bool triggerButton = Convert.ToBoolean(buttonState.buttonState["triggerButton"]);
+        bool trackpadPressed = Convert.ToBoolean(buttonState.buttonState["trackpadPressed"]);
+        bool menuButton = Convert.ToBoolean(buttonState.buttonState["menuButton"]);
+        bool gripButton = Convert.ToBoolean(buttonState.buttonState["gripButton"]);
+
+        //detect a change from not pressed (false) to pressed (True)
+        if (triggerButton==true && lastTriggerButtonState ==false )
+        {
+            Debug.Log("Change in TriggerButton");
+            currentAxisNum += 1;
+            if (currentAxisNum > 5)//only 6 axis hence wrap to first axis again
+            {
+                currentAxisNum = 0;
+            }
+            changeAxis = true;
+
+        }
+        lastTriggerButtonState = triggerButton;
+        if (changeAxis == true)
+        {
+            ChangeAxisHighlight();
+            changeAxis = false;
+        }
+        if (trackpadPressed == true)
+        {
+            MoveObjectNew(x_trackpad,y_trackpad);
+        }
+        
+
+        //MoveObject(x_trackpad, triggerButton, trackpadPressed, menuButton, gripButton);
+    }
+
+    private void ChangeAxisHighlight()
+    {
+        //0 ->x,... ,5->Rz
+
+        // the axis are different objects hence their colo has to be changed differently
+        if (currentAxisNum < 3)
+        {
+            foreach (Renderer r in axisList[currentAxisNum].GetComponentsInChildren<Renderer>())
+            {
+                r.material.color = Color.red;
+            }
+        }
+        else
+        {
+            axisList[currentAxisNum].GetComponent<Renderer>().material.color = Color.red;
+        }
+        /*
+         * Remove highlighting. Not used atm but kept around
+         */
+        //if (currentAxisNum < 3)
+        //{
+        //    foreach (Renderer r in axisList[currentAxisNum].GetComponentsInChildren<Renderer>())
+        //    {
+        //        r.material.color = Color.white;
+        //    }
+        //}
+        //else
+        //{
+        //    axisList[currentAxisNum].GetComponent<Renderer>().material.color = Color.white;
+        //}
+    }
+
+    private void MoveObjectNew(float xTrackpadPosition, float yTrackpadPosition)
+    {
+        float angle = Mathf.Rad2Deg*Mathf.Atan2(yTrackpadPosition, xTrackpadPosition);//conversion via multiplicatoin with 360/(2*pi)
+        int direction = 1;
+        if (angle <=135 || angle > 315)//atan retuns 0->360 
+        {
+            direction = 1;
+        }
+        else
+        {
+            direction = -1;
+        }
+
+        if (currentAxisNum < 3)
+        {
+            var tempRotation = referenceObject.transform.rotation;//we need to transform the unit vectors in the coordinante system of the object before
+                                                                  //adding them to the current position of the object
+                                                                  //change position
+            switch (currentAxisNum)
+            {
+                case 0:
+                    referenceObject.transform.position += tempRotation * new Vector3(increment * direction, 0, 0);
+                    break;
+                case 1:
+                    referenceObject.transform.position += tempRotation * new Vector3(0, increment * direction, 0);
+                    break;
+                case 2:
+                    referenceObject.transform.position += tempRotation * new Vector3(0, 0, increment * direction);
+                    break;
+            }
+
+        }
+        else
+        {
+            //change rotation
+            switch (currentAxisNum)
+            {
+                case 3:
+                    referenceObject.transform.eulerAngles += new Vector3(increment * direction, 0, 0);
+                    break;
+                case 4:
+                    referenceObject.transform.eulerAngles += new Vector3(0, increment * direction, 0);
+                    break;
+                case 5:
+                    referenceObject.transform.eulerAngles += new Vector3(0, 0, increment * direction);
+                    break;
+            }
+        }
+    }
     void Awake()
     {
         axisList = new List<GameObject>() { xAxis, yAxis, zAxis, xRotation, yRotation, zRotation };
     }
 
 
-    void readButtonStateAndMove(EventParam buttonState)
-    {
-        float x_trackpad = buttonState.buttonState["x_trackpad"];
-        bool triggerButton = Convert.ToBoolean(buttonState.buttonState["triggerButton"]);
-        bool trackpadPressed = Convert.ToBoolean(buttonState.buttonState["trackpadPressed"]);
-        bool menuButton = Convert.ToBoolean(buttonState.buttonState["menuButton"]);
-        bool gripButton = Convert.ToBoolean(buttonState.buttonState["gripButton"]);
-
-        MoveObject(x_trackpad, triggerButton, trackpadPressed, menuButton, gripButton);
-    }
-
-    private void MoveObject(float xTrackpadPosition, bool triggerButton, bool trackpadPressed, bool menuButton, bool gripButton)
-    {
-        // change between rough and fine increment
-        if (menuButton == true)
-        {
-            fineIncrementMode = !fineIncrementMode;
-        }
-        if (triggerButton == true)
-        {
-            //change target Axis
-            //first current highlight disable if moveObjectFlag is set
-            Debug.Log("here we go");
-            if (moveObjectFlag == false)
-            {
-                //if not true no axis is highlighed thus just increase counter
-                currentAxisNum++;
-                if (currentAxisNum > 5)
-                {
-                    currentAxisNum = 0;
-                }
-            }
-            else
-            {
-
-                if (currentAxisNum < 3)//the translationelements have subelemnents
-                {
-                    
-                    foreach (Renderer r in axisList[currentAxisNum].GetComponentsInChildren<Renderer>())
-                    {
-                        r.material.color = Color.white;
-                    }
-                }
-                else
-                {
-                    axisList[currentAxisNum].GetComponent<Renderer>().material.color = Color.white;
-                }
-                currentAxisNum++;
-                //now highlight the current one
-                if (currentAxisNum > 5)
-                {
-                    currentAxisNum = 0;
-                }
-                if (currentAxisNum < 3)
-                {
-                    foreach (Renderer r in axisList[currentAxisNum].GetComponentsInChildren<Renderer>())
-                    {
-                        r.material.color = Color.red;
-                    }
-                }
-                else
-                {
-                    axisList[currentAxisNum].GetComponent<Renderer>().material.color = Color.red;
-                }
-
-
-
-            }
-        }
-
-        if (gripButton == true && moveObjectFlag == true)
-        {
-            //disable moving
-            moveObjectFlag = false;
-            //remove highlighting
-            if (currentAxisNum < 3)
-            {
-                foreach (Renderer r in axisList[currentAxisNum].GetComponentsInChildren<Renderer>())
-                {
-                    r.material.color = Color.white;
-                }
-            }
-            else
-            {
-                axisList[currentAxisNum].GetComponent<Renderer>().material.color = Color.white;
-            }
-
-
-        }
-
-
-        if (gripButton == true && moveObjectFlag == false)
-        {
-            //enable moving
-            moveObjectFlag = true;
-            //highlight axis
-            if (currentAxisNum < 3)
-            {
-                foreach (Renderer r in axisList[currentAxisNum].GetComponentsInChildren<Renderer>())
-                {
-                    r.material.color = Color.red;
-                }
-            }
-            else
-            {
-                axisList[currentAxisNum].GetComponent<Renderer>().material.color = Color.red;
-            }
-        }
-        if (moveObjectFlag == true)
-        {
-            if (fineIncrementMode == false)
-            {
-                //move object in rough mode
-                if (currentAxisNum < 3)
-                {
-                    var tempRotation = referenceObject.transform.rotation;//we need to transform the unit vectors in the coordinante system of the object before
-                                                                          //adding them to the current position of the object
-                                                                          //change position
-                    switch (currentAxisNum)
-                    {
-                        case 0:
-                            referenceObject.transform.position += tempRotation * new Vector3(0.05f * xTrackpadPosition, 0, 0);
-                            break;
-                        case 1:
-                            referenceObject.transform.position += tempRotation * new Vector3(0, 0.05f * xTrackpadPosition, 0);
-                            break;
-                        case 2:
-                            referenceObject.transform.position += tempRotation * new Vector3(0, 0, 0.05f * xTrackpadPosition);
-                            break;
-                    }
-
-                }
-                else
-                {
-                    //change rotation
-                    switch (currentAxisNum)
-                    {
-                        case 3:
-                            referenceObject.transform.eulerAngles += new Vector3(0.2f * xTrackpadPosition, 0, 0);
-                            break;
-                        case 4:
-                            referenceObject.transform.eulerAngles += new Vector3(0, 0.2f * xTrackpadPosition, 0);
-                            break;
-                        case 5:
-                            referenceObject.transform.eulerAngles += new Vector3(0, 0, 0.2f * xTrackpadPosition);
-                            break;
-                    }
-                }
-            }
-            else
-            {
-                //move object in fine mode
-                //move object only if trackpad is pressed and depending on the xposition
-                if (trackpadPressed == true)
-                {
-                    var inputDirection = Math.Sign(xTrackpadPosition);
-
-                    if (currentAxisNum < 3)
-                    {
-                        var tempRotation = referenceObject.transform.rotation;//we need to transform the unit vectors in the coordinante system of the object before
-                                                                              //adding them to the current position of the object
-                                                                              //change position
-                        switch (currentAxisNum)
-                        {
-                            case 0:
-                                referenceObject.transform.position += tempRotation * new Vector3(0.001f * inputDirection, 0, 0);
-                                break;
-                            case 1:
-                                referenceObject.transform.position += tempRotation * new Vector3(0, 0.001f * inputDirection, 0);
-                                break;
-                            case 2:
-                                referenceObject.transform.position += tempRotation * new Vector3(0, 0, 0.001f * inputDirection);
-                                break;
-                        }
-
-                    }
-                    else
-                    {
-                        //change rotation
-                        switch (currentAxisNum)
-                        {
-                            case 3:
-                                referenceObject.transform.eulerAngles += new Vector3(0.1f * inputDirection, 0, 0);
-                                break;
-                            case 4:
-                                referenceObject.transform.eulerAngles += new Vector3(0, 0.1f * inputDirection, 0);
-                                break;
-                            case 5:
-                                referenceObject.transform.eulerAngles += new Vector3(0, 0, 0.1f * inputDirection);
-                                break;
-                        }
-                    }
-                }
-
-            }
-
-        }
-    }
     void OnEnable()
     {
 
