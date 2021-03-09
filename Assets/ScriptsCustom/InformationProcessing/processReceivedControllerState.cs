@@ -106,6 +106,7 @@ public class processReceivedControllerState : MonoBehaviour
 
         buttonState = new Dictionary<string, float>();
         buttonState["x_trackpad"] = float.Parse(x_trackpad, CultureInfo.InvariantCulture);
+        buttonState["y_trackpad"] = float.Parse(y_trackpad, CultureInfo.InvariantCulture);
         buttonState["triggerButton"] = Convert.ToSingle(bool.Parse(listButtonChanged[0]));     
         buttonState["trackpadPressed"] = Convert.ToSingle(bool.Parse(listButtonChanged[1]));     
         buttonState["menuButton"] = Convert.ToSingle(bool.Parse(listButtonChanged[2]));     
