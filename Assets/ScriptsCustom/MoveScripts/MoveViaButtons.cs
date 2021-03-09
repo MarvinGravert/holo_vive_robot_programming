@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Microsoft.MixedReality.Toolkit.UI;//for button slider
 public class MoveViaButtons : MonoBehaviour
 {
     public string buttonStateEventName;
+    public float lowerIncrementStep;
+    public float upperIncrementStep;
 
     public GameObject referenceObject;
 
@@ -19,6 +22,7 @@ public class MoveViaButtons : MonoBehaviour
 
 
     private int currentAxisNum = 0;
+    private int lastAxisNum = 0;
 
     private bool lastTriggerButtonState=false; //assume that the button is not pressed 
     private float increment = 0.02f;//values will be changed between 0.05f and 0.001f via a slider
@@ -36,7 +40,10 @@ public class MoveViaButtons : MonoBehaviour
     * The change is only done on a change of the trigger when its going from not pressed to pressed.
     */
 
-
+    private void Start()
+    {
+        ChangeAxisHighlight();//To color in the first axis 
+    }
     void readButtonStateAndMove(EventParam buttonState)
     {
 
@@ -51,11 +58,13 @@ public class MoveViaButtons : MonoBehaviour
         if (triggerButton==true && lastTriggerButtonState ==false )
         {
             Debug.Log("Change in TriggerButton");
+            lastAxisNum = currentAxisNum;
             currentAxisNum += 1;
             if (currentAxisNum > 5)//only 6 axis hence wrap to first axis again
             {
                 currentAxisNum = 0;
             }
+            Debug.Log($"The current Axis is {currentAxisNum}");
             changeAxis = true;
 
         }
@@ -77,7 +86,20 @@ public class MoveViaButtons : MonoBehaviour
     private void ChangeAxisHighlight()
     {
         //0 ->x,... ,5->Rz
-
+        /*
+         * Remove highlighting. Not used atm but kept around
+         */
+        if (lastAxisNum<3 )
+        {
+            foreach (Renderer r in axisList[lastAxisNum].GetComponentsInChildren<Renderer>())
+            {
+                r.material.color = Color.white;
+            }
+        }
+        else
+        {
+            axisList[lastAxisNum].GetComponent<Renderer>().material.color = Color.white;
+        }
         // the axis are different objects hence their colo has to be changed differently
         if (currentAxisNum < 3)
         {
@@ -90,33 +112,23 @@ public class MoveViaButtons : MonoBehaviour
         {
             axisList[currentAxisNum].GetComponent<Renderer>().material.color = Color.red;
         }
-        /*
-         * Remove highlighting. Not used atm but kept around
-         */
-        //if (currentAxisNum < 3)
-        //{
-        //    foreach (Renderer r in axisList[currentAxisNum].GetComponentsInChildren<Renderer>())
-        //    {
-        //        r.material.color = Color.white;
-        //    }
-        //}
-        //else
-        //{
-        //    axisList[currentAxisNum].GetComponent<Renderer>().material.color = Color.white;
-        //}
+
     }
 
     private void MoveObjectNew(float xTrackpadPosition, float yTrackpadPosition)
     {
         float angle = Mathf.Rad2Deg*Mathf.Atan2(yTrackpadPosition, xTrackpadPosition);//conversion via multiplicatoin with 360/(2*pi)
+        Debug.Log($"The angle is: {angle}");
         int direction = 1;
-        if (angle <=135 || angle > 315)//atan retuns 0->360 
+        float rotationScaler = 6.0f; //rotation are done slower than translation hence scaling!
+        if (angle <=135 && angle > -45) //atan retuns 0->360 
         {
             direction = 1;
         }
         else
         {
             direction = -1;
+            Debug.Log("wir haben negativ");
         }
 
         if (currentAxisNum < 3)
@@ -144,13 +156,13 @@ public class MoveViaButtons : MonoBehaviour
             switch (currentAxisNum)
             {
                 case 3:
-                    referenceObject.transform.eulerAngles += new Vector3(increment * direction, 0, 0);
+                    referenceObject.transform.eulerAngles += new Vector3(increment * rotationScaler* direction, 0, 0);
                     break;
                 case 4:
-                    referenceObject.transform.eulerAngles += new Vector3(0, increment * direction, 0);
+                    referenceObject.transform.eulerAngles += new Vector3(0, increment * rotationScaler*direction, 0);
                     break;
                 case 5:
-                    referenceObject.transform.eulerAngles += new Vector3(0, 0, increment * direction);
+                    referenceObject.transform.eulerAngles += new Vector3(0, 0, increment * rotationScaler*direction);
                     break;
             }
         }
@@ -159,7 +171,12 @@ public class MoveViaButtons : MonoBehaviour
     {
         axisList = new List<GameObject>() { xAxis, yAxis, zAxis, xRotation, yRotation, zRotation };
     }
-
+    public void OnSliderUpdated(SliderEventData eventData)
+    {
+        //map the slider value onto range from lower to upper value
+        increment = lowerIncrementStep + eventData.NewValue*(upperIncrementStep- lowerIncrementStep);
+        Debug.Log($"Changing Value to {increment:F4} ");
+    }
 
     void OnEnable()
     {
