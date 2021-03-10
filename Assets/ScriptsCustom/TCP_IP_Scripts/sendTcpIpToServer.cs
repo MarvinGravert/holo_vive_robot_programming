@@ -130,6 +130,7 @@ public class sendTcpIpToServer : MonoBehaviour
             received = reader.ReadLine();
 #endif
             Debug.Log(received);
+            break;
 
 
 
