@@ -3,6 +3,9 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 using System;
+#if !UNITY_EDITOR
+using System.Threading.Tasks;
+#endif
 public class sendTcpIpToServer : MonoBehaviour
 {
     public string sendCalibrationEventName;
@@ -78,7 +81,7 @@ public class sendTcpIpToServer : MonoBehaviour
             Stream streamIn = socket.InputStream.AsStreamForRead();
             reader = new StreamReader(streamIn);
 
-            RestartExchange();
+        
         }
         catch (Exception e)
         {
@@ -130,6 +133,8 @@ public class sendTcpIpToServer : MonoBehaviour
             received = reader.ReadLine();
 #endif
             Debug.Log(received);
+            Thread.Sleep(300);
+            exchangeStopRequested = true;
             break;
 
 

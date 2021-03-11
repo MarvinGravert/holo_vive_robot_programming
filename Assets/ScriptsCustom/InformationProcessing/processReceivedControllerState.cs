@@ -84,7 +84,7 @@ public class processReceivedControllerState : MonoBehaviour
 
 
         position = new Vector3(x, y, z);//RealWorld object in holoWorld
-        rotation = new Quaternion(qy, qz, qx, qw);
+        rotation = new Quaternion(qx, qy, qz, qw);
         // Pre Calibration this is the position of the controller in LH world, post claibration this is the position of the controller
         // either to the center of projection of the hololens aka the user or in reference to the world system
         // all of the logic is already implemented server side so we can act dumb on unity 

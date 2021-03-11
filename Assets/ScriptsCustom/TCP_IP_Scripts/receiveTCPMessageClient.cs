@@ -6,6 +6,9 @@ using System.Threading;
 using UnityEngine;
 using System.Globalization;
 using UnityEngine.Events;
+#if !UNITY_EDITOR
+using System.Threading.Tasks;
+#endif
 /*
 * This script runs a thread to continously query the backend server for the controller position
 * The received information is progated using an EventManager 
@@ -36,9 +39,7 @@ using UnityEngine.Events;
 *  - potential race condition as we are not locking lastPacket
  * */
 
-#if !UNITY_EDITOR
-using System.Threading.Tasks;
-#endif
+
 
 public class receiveTCPMessageClient : MonoBehaviour
 {
@@ -211,6 +212,7 @@ public class receiveTCPMessageClient : MonoBehaviour
             //the following will work in UWP as there is already a function that reads until we receive a "\n"
 #else
             received = reader.ReadLine();
+            latestInfo=received;
 #endif
 
             lastPacket = latestInfo;
