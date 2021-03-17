@@ -15,12 +15,8 @@ public class sendTcpIpToServer : MonoBehaviour
     public String ipTCPHost;
     public String portTCPHost;
 
-
-    private bool exchanging = false;
-    private bool exchangeStopRequested = false;
-    private string lastPacket = null;
-    private bool connected = false;
     private string errorStatus = null;
+    private bool exchangeStopRequested = false;
 
 #if !UNITY_EDITOR
     private bool _useUWP = true;
@@ -40,7 +36,7 @@ public class sendTcpIpToServer : MonoBehaviour
     private StreamReader reader;
     private void SendToServer(EventParam calibrationData)
     {
-        messageToSend = calibrationData.tcpIPMessage + "end";//end signifies that its the last string and we cancel communication
+        messageToSend = calibrationData.tcpIPMessage + "X";//end signifies that its the last string and we cancel communication
         Connect(ipTCPHost, portTCPHost);
         ExchangePackets();
     }
@@ -81,7 +77,7 @@ public class sendTcpIpToServer : MonoBehaviour
             Stream streamIn = socket.InputStream.AsStreamForRead();
             reader = new StreamReader(streamIn);
 
-        
+            RestartExchange();
         }
         catch (Exception e)
         {
@@ -115,31 +111,31 @@ public class sendTcpIpToServer : MonoBehaviour
     public void ExchangePackets()
     {
 
-        while (!exchangeStopRequested)
-        {
-            if (writer == null || reader == null) continue;
-           
+        //while (!exchangeStopRequested)
+        //{
+        //    if (writer == null || reader == null) continue;
 
-            writer.Write(messageToSend); //to signify to server that we want new information
-            string received = null;
+        //messageToSend = "X";
+        writer.Write(messageToSend); //to signify to server that we want new information
+        string received = null;
 
 #if UNITY_EDITOR
-            // read into buffer until we receive a "\n"
-            byte[] bytes = new byte[client.SendBufferSize];
-            int recv = 0;
-            recv = stream.Read(bytes, 0, client.SendBufferSize);
-            received = Encoding.UTF8.GetString(bytes, 0, recv);
+        // read into buffer until we receive a "\n"
+        //byte[] bytes = new byte[client.SendBufferSize];
+        //int recv = 0;
+        //recv = stream.Read(bytes, 0, client.SendBufferSize);
+        //received = Encoding.UTF8.GetString(bytes, 0, recv);
 #else
-            received = reader.ReadLine();
+        //received = reader.ReadLine();
 #endif
-            Debug.Log(received);
-            Thread.Sleep(300);
-            exchangeStopRequested = true;
-            break;
+        Debug.Log(received);
+        //Thread.Sleep(300);
+        //exchangeStopRequested = true;
+        //break;
 
 
 
-        }
+        //}
     }
 
     public void StopExchange()
@@ -172,6 +168,20 @@ public class sendTcpIpToServer : MonoBehaviour
         writer = null;
         reader = null;
     }
+    public void RestartExchange()
+    {
+#if UNITY_EDITOR
+        if (exchangeThread != null) StopExchange();
+        exchangeStopRequested = false;
+        exchangeThread = new System.Threading.Thread(ExchangePackets);
+        exchangeThread.Start();
+#else
+        if (exchangeTask != null) StopExchange();
+        exchangeStopRequested = false;
+        exchangeTask = Task.Run(() => ExchangePackets());
+#endif
+    }
+
 
     public void OnDestroy()
     {

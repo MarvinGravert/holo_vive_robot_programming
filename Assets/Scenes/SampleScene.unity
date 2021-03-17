@@ -1524,7 +1524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf74b7aae84068b4e8e499b078383797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ipTCPHost: 192.168.43.49
+  ipTCPHost: 192.168.137.1
   portTCPHost: 15004
   controllerInformationEventName: controller
   updateInterval: 100
@@ -1555,7 +1555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sendCalibrationEventName: calibrationToSend
-  ipTCPHost: 192.168.43.49
+  ipTCPHost: 192.168.137.1
   portTCPHost: 15005
 --- !u!114 &1065343770
 MonoBehaviour:

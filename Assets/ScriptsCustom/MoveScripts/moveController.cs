@@ -35,6 +35,8 @@ public class MoveController : MonoBehaviour
         // the left most quaternion represents the fist rotation so first apply the rotation (controller->reference)
         // then the rotation (reference to 
         this.transform.rotation = controller2Reference * reference2World;
-
+        // for debugging purposes just simply place the controller into the world aka use the world as reference
+        this.transform.position = controllerPosInReference;
+        this.transform.rotation = controller2Reference ;
     }
 }
