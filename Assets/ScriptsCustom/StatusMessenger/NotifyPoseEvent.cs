@@ -25,6 +25,8 @@ public class NotifyPoseEvent : MonoBehaviour
         pose = new EventParam();
         pose.position = calibObjectPositionInReference;
         pose.rotation = calibObject2Reference;
+        pose.position = calibObjectPositionInWorld;
+        pose.rotation = calibObjectRotation2World;
         EventManager.TriggerEvent(objectPoseInformationEventName, pose);
     }
 }
