@@ -13,7 +13,6 @@ public class MoveToObject : MonoBehaviour
     {
         this.transform.position = targetObject.transform.position;
         this.transform.rotation = targetObject.transform.rotation;
-        Debug.Log("Moved to controller");
     }
     void OnEnable()
     {

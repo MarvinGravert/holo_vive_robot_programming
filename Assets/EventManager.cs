@@ -110,9 +110,15 @@ public class EventManager : MonoBehaviour
             // remove the desired listener from the events
             // dunno what happends if the listener is not inside of it? Exception?
             thisEvent -= listener;
-
             //Update the Dictionary
             instance.eventDictionary[eventName] = thisEvent;
+        }
+        // if one removes all the listeners=> eventname:null => if the event is called the eventmanager will try to call null
+        // and thus result in an error. Hence to circumvent this, if there are no listeners left, also remove the event from the 
+        // dictionary. If a listener is added again, the event is also readded
+        if (instance.eventDictionary[eventName] == null)
+        {
+            instance.eventDictionary.Remove(eventName);
         }
     }
     //Also obviously necessary to have a function that can trigger event

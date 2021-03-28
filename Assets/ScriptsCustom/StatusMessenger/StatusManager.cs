@@ -50,7 +50,6 @@ public class StatusManager : MonoBehaviour
                 case "place":
                     if (setting.Contains("waypoint"))
                     {
-                        Debug.Log("Placing Controller Waypoint");
                         EventParam pose = new EventParam();
                        
                         EventManager.TriggerEvent(controllerWaypointEventName, pose);

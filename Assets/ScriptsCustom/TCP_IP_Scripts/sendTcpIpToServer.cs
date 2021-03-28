@@ -128,7 +128,7 @@ public class sendTcpIpToServer : MonoBehaviour
 #else
         //received = reader.ReadLine();
 #endif
-        Debug.Log(received);
+        //Debug.Log(received);
         //Thread.Sleep(300);
         //exchangeStopRequested = true;
         //break;

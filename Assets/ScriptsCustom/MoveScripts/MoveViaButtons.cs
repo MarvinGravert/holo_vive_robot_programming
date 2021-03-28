@@ -46,7 +46,6 @@ public class MoveViaButtons : MonoBehaviour
     }
     void readButtonStateAndMove(EventParam buttonState)
     {
-
         float x_trackpad = buttonState.buttonState["x_trackpad"];
         float y_trackpad = buttonState.buttonState["y_trackpad"];
         bool triggerButton = Convert.ToBoolean(buttonState.buttonState["triggerButton"]);
@@ -128,7 +127,6 @@ public class MoveViaButtons : MonoBehaviour
         else
         {
             direction = -1;
-            Debug.Log("wir haben negativ");
         }
 
         if (currentAxisNum < 3)
@@ -185,8 +183,7 @@ public class MoveViaButtons : MonoBehaviour
 
     }
     void OnDisable()
-    {
-
+    { 
         EventManager.StopListening(buttonStateEventName, readButtonStateAndMove);
     }
 }

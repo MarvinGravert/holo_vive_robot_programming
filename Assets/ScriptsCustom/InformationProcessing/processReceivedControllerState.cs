@@ -63,7 +63,6 @@ public class processReceivedControllerState : MonoBehaviour
          * x,y,z:w,i,j,k:x_trackpad,y_trackpad:trigger,trackpad_pressed, menuButton,grip_button:status
          * 
          */
-
         var parts = eventParam.tcpIPMessage.Split(':');
         var positionData = parts[0].Split(',');
         var rotationData = parts[1].Split(',');
@@ -109,7 +108,7 @@ public class processReceivedControllerState : MonoBehaviour
         buttonState["y_trackpad"] = float.Parse(y_trackpad, CultureInfo.InvariantCulture);
         buttonState["triggerButton"] = Convert.ToSingle(bool.Parse(listButtonChanged[0]));     
         buttonState["trackpadPressed"] = Convert.ToSingle(bool.Parse(listButtonChanged[1]));     
-        buttonState["menuButton"] = Convert.ToSingle(bool.Parse(listButtonChanged[2]));     
+        buttonState["menuButton"] = Convert.ToSingle(bool.Parse(listButtonChanged[2]));
         buttonState["gripButton"] = Convert.ToSingle(bool.Parse(listButtonChanged[3]));
         /*
          * TRIGGER EVENTS
@@ -117,20 +116,19 @@ public class processReceivedControllerState : MonoBehaviour
         // Build eventParam
         newPose = new EventParam();
         newButtonState = new EventParam();
-
         newButtonState.buttonState = buttonState;
         newPose.position = position;
         newPose.rotation = rotation;
         //controller Pose
         EventManager.TriggerEvent(controllerPoseEventName, newPose);
-        //buttonState
+        //buttonState        
         EventManager.TriggerEvent(buttonStateEventName, newButtonState);
-
         // Status
         if (status.Length != 0)//check if the string is actually set
         {
             if (oldStatus != status) //change if there has actually been a change in status
             {
+                
                 newStatus = new EventParam();
                 newStatus.status = status;
                 oldStatus = status;
