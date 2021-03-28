@@ -5,6 +5,7 @@ using System;
 public class StatusManager : MonoBehaviour
 {
     public string statusEventName;
+    public string controllerWaypointEventName;
     public GameObject DebugLogger;
    
 
@@ -26,7 +27,6 @@ public class StatusManager : MonoBehaviour
 
     void ManageStatus(EventParam newStatus)
     {
-        Debug.Log("so its go wit");
         string status = newStatus.status;
         if (status.Contains("cmd")){//cmd_order_setting
             var parts=status.Split('_');
@@ -45,6 +45,15 @@ public class StatusManager : MonoBehaviour
                     {
                         Debug.Log("turning off");
                         DebugLogger.SetActive(false);
+                    }
+                    break;
+                case "place":
+                    if (setting.Contains("waypoint"))
+                    {
+                        Debug.Log("Placing Controller Waypoint");
+                        EventParam pose = new EventParam();
+                       
+                        EventManager.TriggerEvent(controllerWaypointEventName, pose);
                     }
                     break;
             }

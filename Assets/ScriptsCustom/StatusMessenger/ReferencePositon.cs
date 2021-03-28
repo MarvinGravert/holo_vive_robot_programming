@@ -8,6 +8,7 @@ public class ReferencePositon : MonoBehaviour
 {
     private TextMeshPro StatusTextManager;
     public GameObject referenceObject;
+    public string prependMessage;
     void Start()
     {
         StatusTextManager = this.gameObject.GetComponent<TextMeshPro>();
@@ -18,6 +19,6 @@ public class ReferencePositon : MonoBehaviour
     {
         Vector3 position = referenceObject.transform.position;
         Quaternion rotation = referenceObject.transform.rotation;
-        StatusTextManager.text = position.ToString("F4") + "\n" + rotation.ToString("F4");
+        StatusTextManager.text =prependMessage+": "+ position.ToString("F4") + "\n" + rotation.ToString("F4");
     }
 }

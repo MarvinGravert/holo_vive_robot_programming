@@ -120,7 +120,7 @@ public class MoveViaButtons : MonoBehaviour
         float angle = Mathf.Rad2Deg*Mathf.Atan2(yTrackpadPosition, xTrackpadPosition);//conversion via multiplicatoin with 360/(2*pi)
         Debug.Log($"The angle is: {angle}");
         int direction = 1;
-        float rotationScaler = 6.0f; //rotation are done slower than translation hence scaling!
+        float rotationScaler = 16.0f; //rotation are done slower than translation hence scaling!
         if (angle <=135 && angle > -45) //atan retuns 0->360 
         {
             direction = 1;
