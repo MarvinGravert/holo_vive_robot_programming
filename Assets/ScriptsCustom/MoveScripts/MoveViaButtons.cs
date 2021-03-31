@@ -21,6 +21,10 @@ public class MoveViaButtons : MonoBehaviour
     private List<GameObject> axisList;
 
 
+    Vector3 currentEulerAngles;
+    Quaternion currentRotation;
+
+
     private int currentAxisNum = 0;
     private int lastAxisNum = 0;
 
@@ -43,6 +47,7 @@ public class MoveViaButtons : MonoBehaviour
     private void Start()
     {
         ChangeAxisHighlight();//To color in the first axis 
+        Vector3 currentEulerAngles = this.transform.eulerAngles;
     }
     void readButtonStateAndMove(EventParam buttonState)
     {
@@ -119,7 +124,10 @@ public class MoveViaButtons : MonoBehaviour
         float angle = Mathf.Rad2Deg*Mathf.Atan2(yTrackpadPosition, xTrackpadPosition);//conversion via multiplicatoin with 360/(2*pi)
         Debug.Log($"The angle is: {angle}");
         int direction = 1;
-        float rotationScaler = 66.0f; //rotation are done slower than translation hence scaling!
+        float rotationSpeed = 45;
+        
+        
+        float rotationScaler = 10f; //rotation are done slower than translation hence scaling!
         if (angle <=135 && angle > -45) //atan retuns 0->360 
         {
             direction = 1;
@@ -153,14 +161,21 @@ public class MoveViaButtons : MonoBehaviour
             //change rotation
             switch (currentAxisNum)
             {
+                //https://docs.unity3d.com/ScriptReference/Quaternion-eulerAngles.html
                 case 3:
-                    referenceObject.transform.eulerAngles += new Vector3(increment * rotationScaler* direction, 0, 0);
+                    currentEulerAngles += new Vector3(1, 0, 0) * rotationScaler * direction;
+                    currentRotation.eulerAngles = currentEulerAngles;
+                    referenceObject.transform.rotation=currentRotation;
                     break;
                 case 4:
-                    referenceObject.transform.eulerAngles += new Vector3(0, increment * rotationScaler*direction, 0);
+                    currentEulerAngles += new Vector3(0, 1, 0) * rotationScaler * direction;
+                    currentRotation.eulerAngles = currentEulerAngles;
+                    referenceObject.transform.rotation = currentRotation; 
                     break;
                 case 5:
-                    referenceObject.transform.eulerAngles += new Vector3(0, 0, increment * rotationScaler*direction);
+                    currentEulerAngles += new Vector3(0, 0, 1) * rotationScaler * direction;
+                    currentRotation.eulerAngles = currentEulerAngles;
+                    referenceObject.transform.rotation = currentRotation; 
                     break;
             }
         }
