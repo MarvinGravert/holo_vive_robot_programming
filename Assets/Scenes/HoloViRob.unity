@@ -4188,7 +4188,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnValueUpdated.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 233477212}
     - target: {fileID: 7307063430618434848, guid: 1093263a89abe47499cccf7dcb08effb,
         type: 3}
       propertyPath: OnValueUpdated.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -5209,7 +5209,7 @@ PrefabInstance:
     - target: {fileID: 2204069621426241315, guid: 3f1f46cbecbe08e46a303ccfdb5b498a,
         type: 3}
       propertyPath: m_Name
-      value: SendCalibrationToServerButton
+      value: SendPoseToServerButton
       objectReference: {fileID: 0}
     - target: {fileID: 2204069621878992557, guid: 3f1f46cbecbe08e46a303ccfdb5b498a,
         type: 3}
@@ -12082,7 +12082,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Landing Gear Length (meter)
+  m_text: Sensitivity
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: afc8299d5d5bbd440a0616c8ecbc7217, type: 2}
   m_sharedMaterial: {fileID: 21340371490990018, guid: afc8299d5d5bbd440a0616c8ecbc7217,
