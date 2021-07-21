@@ -26,6 +26,8 @@ public struct EventParam
     //this strcuture
     public string tcpIPMessage;
     public string status;
+    public string command;
+    public string name;
     public Vector3 position;
     public Quaternion rotation;
     public Dictionary<string, float> buttonState; // boolean Values are encoded as 0.0 and 1.0
