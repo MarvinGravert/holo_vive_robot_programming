@@ -10,6 +10,7 @@ public class processTCPMessage : MonoBehaviour
 
     
     public string newTCPMessageEventName;
+    public string newRegistrationEventName;
 
     private Dictionary<string, float> buttonState;
     private Vector3 position;
@@ -29,6 +30,7 @@ public class processTCPMessage : MonoBehaviour
 
         //EventManager.StartListening(newTcpControllerState, ParseControllerInformation);
         EventManager.StartListening(newTCPMessageEventName, ParseTCPMessage);
+        EventManager.StartListening(newRegistrationEventName, ParseRegistration);
 
     }
     void OnDisable()
@@ -36,6 +38,11 @@ public class processTCPMessage : MonoBehaviour
 
         //EventManager.StopListening(newTcpControllerState, ParseControllerInformation);
         EventManager.StopListening(newTCPMessageEventName, ParseTCPMessage);
+        EventManager.StopListening(newRegistrationEventName, ParseRegistration);
+    }
+    void  ParseRegistration(EventParam registrationString)
+    {
+        Debug.Log(registrationString.tcpIPMessage);
     }
     void ParseTCPMessage(EventParam eventParam)
     {
