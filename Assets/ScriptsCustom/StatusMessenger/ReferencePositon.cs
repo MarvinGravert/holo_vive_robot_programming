@@ -19,6 +19,7 @@ public class ReferencePositon : MonoBehaviour
     {
         Vector3 position = referenceObject.transform.position;
         Quaternion rotation = referenceObject.transform.rotation;
+        //Debug.Log(Matrix4x4.TRS(position, rotation, new Vector3(1, 1, 1)));
         StatusTextManager.text =prependMessage+": "+ position.ToString("F4") + "\n" + rotation.ToString("F4");
     }
 }

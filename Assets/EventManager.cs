@@ -28,6 +28,8 @@ public struct EventParam
     public string status;
     public string command;
     public string name;
+    public List<CustomPose> trackerPoses;
+    public List<CustomPose> calibObjectPoses;
     public Vector3 position;
     public Quaternion rotation;
     public Dictionary<string, float> buttonState; // boolean Values are encoded as 0.0 and 1.0
