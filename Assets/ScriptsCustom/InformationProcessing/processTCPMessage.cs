@@ -8,20 +8,13 @@ public class processTCPMessage : MonoBehaviour
 {
     //private Action<EventParam> incomingMessageListener;
 
-    public string newTcpControllerState;//event name for new data from tcp client
+    
     public string newTCPMessageEventName;
-    public string statusEventName;
-    public string buttonStateEventName;
-    public string controllerPoseEventName;
-    public string fullControllerStateEventName;
 
     private Dictionary<string, float> buttonState;
     private Vector3 position;
     private Quaternion rotation;
 
-    private EventParam newPose;
-    private EventParam newButtonState;
-    private EventParam newStatus;
 
     //void Awake()
     //{
@@ -120,8 +113,8 @@ public class processTCPMessage : MonoBehaviour
             buttonState = new Dictionary<string, float>();
             buttonState["x_trackpad"] = float.Parse(x_trackpad, CultureInfo.InvariantCulture);
             buttonState["y_trackpad"] = float.Parse(y_trackpad, CultureInfo.InvariantCulture);
-            buttonState["triggerButton"] = Convert.ToSingle(bool.Parse(trackpad_pressed));
-            buttonState["trackpadPressed"] = Convert.ToSingle(bool.Parse(trigger));
+            buttonState["trackpadPressed"] = Convert.ToSingle(bool.Parse(trackpad_pressed));
+            buttonState["triggerButton"] = Convert.ToSingle(bool.Parse(trigger));
             buttonState["menuButton"] = Convert.ToSingle(bool.Parse(menu_button));
             buttonState["gripButton"] = Convert.ToSingle(bool.Parse(grip_button));
 

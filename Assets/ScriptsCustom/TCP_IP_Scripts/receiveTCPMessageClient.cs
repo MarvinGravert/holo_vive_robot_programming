@@ -45,7 +45,7 @@ public class receiveTCPMessageClient : MonoBehaviour
 {
     public String ipTCPHost;
     public String portTCPHost;
-    public String controllerInformationEventName;
+    public String tcpMessageEventName;
 
     private EventParam eventParam; // structure which will be send to the EventManager to propagate as argument to callback functions
 
@@ -167,7 +167,7 @@ public class receiveTCPMessageClient : MonoBehaviour
             eventParam = new EventParam();
             eventParam.tcpIPMessage = lastPacket;
             // send it based on eventname specified in unity interface
-            EventManager.TriggerEvent(controllerInformationEventName, eventParam);
+            EventManager.TriggerEvent(tcpMessageEventName, eventParam);
             // clear lastPacket 
             lastPacket = null;
             

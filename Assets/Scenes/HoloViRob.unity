@@ -1611,7 +1611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registrationTransformationEventName: 
-  newControllerPoseEventName: controllerpose
+  newControllerPoseEventName: mainController
 --- !u!4 &197016197 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 026255fc35cc03e47b66a886f36caedd,
@@ -1752,7 +1752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67b426411a96ac24e840fd1a050e0eb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonStateEventName: buttons
+  buttonStateEventName: mainController
   lowerIncrementStep: 0.001
   upperIncrementStep: 0.1
   referenceObject: {fileID: 233477208}
@@ -1762,21 +1762,6 @@ MonoBehaviour:
   xRotation: {fileID: 837083511}
   yRotation: {fileID: 1201512954}
   zRotation: {fileID: 577316056}
---- !u!114 &233477213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 233477208}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1971dd85523c5f347b800f962e6df085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectPoseInformationEventName: calibrationpose
-  referenceKOS: {fileID: 94624297}
-  calibKOS: {fileID: 1349469066}
 --- !u!114 &233477214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2804,7 +2789,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 277966045}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaf0686120b159b4eaa64c250df78004, type: 3}
   m_Name: 
@@ -2823,12 +2808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c4b29087b2c0aa478eed4e63ff867d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newTcpControllerState: 
-  newTCPMessageEventName: controller
-  statusEventName: 
-  buttonStateEventName: 
-  controllerPoseEventName: 
-  fullControllerStateEventName: 
+  newTCPMessageEventName: tcpMessage
 --- !u!114 &277966051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9504,7 +9484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sendCalibrationEventName: calibrationToSend
-  ipTCPHost: 127.0.0.1
+  ipTCPHost: 192.168.137.1
   portTCPHost: 15005
 --- !u!114 &956309309
 MonoBehaviour:
@@ -9518,10 +9498,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf74b7aae84068b4e8e499b078383797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ipTCPHost: 127.0.0.1
+  ipTCPHost: 192.168.137.1
   portTCPHost: 15004
-  controllerInformationEventName: controller
-  updateInterval: 1000
+  tcpMessageEventName: tcpMessage
+  updateInterval: 200
 --- !u!4 &956309310
 Transform:
   m_ObjectHideFlags: 0
@@ -11943,7 +11923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd51877bddaf9247bdabecb9ab2e1bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusEventName: status
+  statusEventName: command
 --- !u!114 &1229677699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16482,7 +16462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45844e57128a9c149a8072a4d1f76981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullControllerStateEventName: fullcontroller
+  fullControllerStateEventName: mainController
 --- !u!114 &1661405860
 MonoBehaviour:
   m_ObjectHideFlags: 0
