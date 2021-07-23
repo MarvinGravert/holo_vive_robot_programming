@@ -46,7 +46,7 @@ public class processTCPMessage : MonoBehaviour
     }
     void ParseTCPMessage(EventParam eventParam)
     {
-        Debug.Log(eventParam.tcpIPMessage);
+        //Debug.Log(eventParam.tcpIPMessage);
         /*
          * PARSE DATA
          * strucuture is as follows
@@ -60,7 +60,7 @@ public class processTCPMessage : MonoBehaviour
         var trackerData = messageObjects[0].Split('|');
         var controllerData = messageObjects[1].Split('|');
         var command = messageObjects[2]; // if no commadn is sent this is just "\n" 
-        Debug.Log(command);
+        //Debug.Log(command);
         // publish tracker information depending on the name of the tracker. Tracker defined as pos+rot+name
         foreach (string tracker in trackerData)
         {

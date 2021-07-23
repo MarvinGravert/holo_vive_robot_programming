@@ -189,7 +189,7 @@ public class MoveViaButtons : MonoBehaviour
     {
         //map the slider value onto range from lower to upper value
         increment = lowerIncrementStep + eventData.NewValue*(upperIncrementStep- lowerIncrementStep);
-        Debug.Log($"Changing Value to {increment:F4} ");
+        //Debug.Log($"Changing Value to {increment:F4} ");
     }
 
     void OnEnable()

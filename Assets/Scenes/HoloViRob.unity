@@ -1741,7 +1741,7 @@ MonoBehaviour:
   caliTrackerEventName: calibrationTracker
   controllerEventName: mainController
   calibObjectKOS: {fileID: 1349469066}
---- !u!114 &233477212
+--- !u!114 &233477213
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1750,13 +1750,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 233477208}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67b426411a96ac24e840fd1a050e0eb9, type: 3}
+  m_Script: {fileID: 11500000, guid: 7269c2f4c7eb28f47bfb34a12f97870d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonStateEventName: mainController
-  lowerIncrementStep: 0.001
-  upperIncrementStep: 0.1
-  referenceObject: {fileID: 233477208}
+  newControllerEvent: mainController
+  lowerIncrementStep: 0.01
+  upperIncrementStep: 3.5
+  objectToMove: {fileID: 233477208}
   xAxis: {fileID: 1755066998}
   yAxis: {fileID: 195258623}
   zAxis: {fileID: 1091808259}
@@ -4110,7 +4110,7 @@ PrefabInstance:
     - target: {fileID: 7307063430618434848, guid: 1093263a89abe47499cccf7dcb08effb,
         type: 3}
       propertyPath: OnValueUpdated.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7307063430618434848, guid: 1093263a89abe47499cccf7dcb08effb,
         type: 3}
@@ -4156,7 +4156,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnValueUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 856401330}
+      objectReference: {fileID: 233477213}
     - target: {fileID: 7307063430618434848, guid: 1093263a89abe47499cccf7dcb08effb,
         type: 3}
       propertyPath: OnValueUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -4221,7 +4221,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnValueUpdated.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 233477212}
+      objectReference: {fileID: 982635964}
     - target: {fileID: 7307063430618434848, guid: 1093263a89abe47499cccf7dcb08effb,
         type: 3}
       propertyPath: OnValueUpdated.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -9593,7 +9593,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959822163}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67b426411a96ac24e840fd1a050e0eb9, type: 3}
   m_Name: 
