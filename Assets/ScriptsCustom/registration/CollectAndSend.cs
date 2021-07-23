@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CollectAndSend : MonoBehaviour
 {
     public string startRegisteringEventName;
     public string caliTrackerEventName;
+    public string controllerEventName; //to use button input
 
     private List<CustomPose> trackerPoses=new List<CustomPose>();
     private List<CustomPose> calibObjectPoses = new List<CustomPose>();
@@ -13,6 +15,9 @@ public class CollectAndSend : MonoBehaviour
     private CustomPose caliTracker= new CustomPose(new Vector3(0,0,0),new Quaternion(0,0,0,1));
 
     public GameObject calibObjectKOS;
+
+    private bool lastStateMenuButton = false;//use for collection
+    private bool lastStateGripButton = false;//use to send to server
    
     public void Register()
     {
@@ -47,15 +52,33 @@ public class CollectAndSend : MonoBehaviour
         caliTracker.position = newCaliTrackerPose.position;
         caliTracker.rotation = newCaliTrackerPose.rotation;
     }
+
+    void CheckControllerButton(EventParam newController)
+    {
+        bool menuButton = Convert.ToBoolean(newController.buttonState["menuButton"]);
+        bool gripButton = Convert.ToBoolean(newController.buttonState["gripButton"]);
+
+        if (lastStateMenuButton==false && menuButton == true)
+        {
+            CollectPosePairs();
+        }
+        if (lastStateGripButton==false && gripButton == true){
+            Register();
+        }
+        lastStateGripButton = gripButton;
+        lastStateMenuButton = menuButton;
+    }
     void OnEnable()
     {
 
         EventManager.StartListening(caliTrackerEventName, ChangeTrackerPose);
+        EventManager.StartListening(controllerEventName, ChangeTrackerPose);
 
     }
     void OnDisable()
     {
         EventManager.StopListening(caliTrackerEventName, ChangeTrackerPose);
+        EventManager.StopListening(controllerEventName, ChangeTrackerPose);
     }
 }
 public class CustomPose
