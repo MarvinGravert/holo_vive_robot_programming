@@ -139,15 +139,12 @@ public class SendRegistration : MonoBehaviour
 
         }
 #else
-        received = reader.ReadLine();
+        latestInfo = reader.ReadLine();
 #endif
-        //Debug.Log(received);
-        //Thread.Sleep(300);
-        //exchangeStopRequested = true;
-        //break;
-        EventParam test = new EventParam();
-        test.tcpIPMessage = latestInfo;
-        EventManager.TriggerEvent(newRegistrationEventName, test);
+        Debug.Log(latestInfo);
+        EventParam regisMessage = new EventParam();
+        regisMessage.tcpIPMessage = latestInfo;
+        EventManager.TriggerEvent(newRegistrationEventName, regisMessage);
 
         //}
     }

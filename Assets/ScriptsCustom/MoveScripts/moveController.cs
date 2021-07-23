@@ -38,11 +38,10 @@ public class MoveController : MonoBehaviour
         Matrix4x4 controllerTrackerKOS = Matrix4x4.TRS(newController.position, newController.rotation, new Vector3(1, 1, 1));
         // Apply the transformatino matrix to 
         Matrix4x4 controllerHoloWorld = registrationMatrix * controllerTrackerKOS;
-
         // turn matrix to left handed by negating third row and third column
-        Matrix4x4 controllerUnityWorld = ChangeHandedness(controllerHoloWorld);
+        //Matrix4x4 controllerUnityWorld = ChangeHandedness(controllerHoloWorld);
 
-        MoveController.FromMatrix(controller, controllerTrackerKOS);//TODO CHANGE THIS
+        MoveController.FromMatrix(controller, controllerHoloWorld);//TODO CHANGE THIS
     }
 
     public static Matrix4x4 ChangeHandedness(Matrix4x4 matrix)

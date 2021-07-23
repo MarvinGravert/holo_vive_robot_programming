@@ -1610,7 +1610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6eb3e71fa2308488eb6cd172b8896d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registrationTransformationEventName: 
+  registrationTransformationEventName: newRegistration
   newControllerPoseEventName: mainController
 --- !u!4 &197016197 stripped
 Transform:
@@ -2824,6 +2824,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startRegisteringEventName: registerPointPairs
   sendCalibrationEventName: calibrationToSend
+  receivedRegistrationEventName: registrationResponse
+  publishRegistrationEventName: newRegistration
 --- !u!1 &299238645
 GameObject:
   m_ObjectHideFlags: 0
@@ -9465,6 +9467,7 @@ GameObject:
   - component: {fileID: 956309309}
   - component: {fileID: 956309308}
   - component: {fileID: 956309311}
+  - component: {fileID: 956309312}
   m_Layer: 0
   m_Name: TCP/IP Manager
   m_TagString: Untagged
@@ -9479,13 +9482,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 956309307}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa9938596833dc14ab1286542d2091c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sendCalibrationEventName: calibrationToSend
-  ipTCPHost: 192.168.137.1
+  ipTCPHost: 127.0.0.1
   portTCPHost: 15005
 --- !u!114 &956309309
 MonoBehaviour:
@@ -9499,7 +9502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf74b7aae84068b4e8e499b078383797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ipTCPHost: 192.168.137.1
+  ipTCPHost: 127.0.0.1
   portTCPHost: 15004
   tcpMessageEventName: tcpMessage
   updateInterval: 200
@@ -9532,6 +9535,22 @@ MonoBehaviour:
   sendCalibrationEventName: waypointToSend
   ipTCPHost: 192.168.137.1
   portTCPHost: 15006
+--- !u!114 &956309312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956309307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9270799669398ac419cb85ca8cd6b5ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendPointPairsEventName: calibrationToSend
+  newRegistrationEventName: registrationResponse
+  ipTCPHost: 127.0.0.1
+  portTCPHost: 15005
 --- !u!1 &959822163
 GameObject:
   m_ObjectHideFlags: 0
@@ -9606,7 +9625,7 @@ Transform:
   - {fileID: 1851461821}
   - {fileID: 1019152894}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &959822167
 MonoBehaviour:
@@ -9667,7 +9686,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d91f86bd9287bf540ba2ca7eafb56322,
         type: 3}
       propertyPath: m_RootOrder
-      value: 18
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d91f86bd9287bf540ba2ca7eafb56322,
         type: 3}
@@ -9707,7 +9726,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d91f86bd9287bf540ba2ca7eafb56322,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d91f86bd9287bf540ba2ca7eafb56322, type: 3}
@@ -13542,7 +13561,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 1ebc033c542d175479ec07349bafc7cd,
         type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ebc033c542d175479ec07349bafc7cd,
         type: 3}
@@ -13579,6 +13598,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: calibrationCube
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1ebc033c542d175479ec07349bafc7cd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ebc033c542d175479ec07349bafc7cd, type: 3}
 --- !u!1 &1405443146 stripped
@@ -13601,6 +13625,95 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   registrationTransformationEventName: 
   newControllerPoseEventName: mainController
+--- !u!1001 &1423374425
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_Name
+      value: KR6_KR10_R900_sixx_CR
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f6db47d9b795d2149af9bc95d1652ec7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f6db47d9b795d2149af9bc95d1652ec7, type: 3}
 --- !u!1 &1427246606
 GameObject:
   m_ObjectHideFlags: 0
