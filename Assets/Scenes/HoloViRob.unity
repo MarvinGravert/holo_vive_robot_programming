@@ -1739,6 +1739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startRegisteringEventName: registerPointPairs
   caliTrackerEventName: calibrationTracker
+  controllerEventName: mainController
   calibObjectKOS: {fileID: 1349469066}
 --- !u!114 &233477212
 MonoBehaviour:
@@ -9502,7 +9503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf74b7aae84068b4e8e499b078383797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ipTCPHost: 127.0.0.1
+  ipTCPHost: 192.168.137.1
   portTCPHost: 15004
   tcpMessageEventName: tcpMessage
   updateInterval: 200
@@ -9549,7 +9550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sendPointPairsEventName: calibrationToSend
   newRegistrationEventName: registrationResponse
-  ipTCPHost: 127.0.0.1
+  ipTCPHost: 192.168.137.1
   portTCPHost: 15005
 --- !u!1 &959822163
 GameObject:
@@ -13623,7 +13624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6eb3e71fa2308488eb6cd172b8896d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registrationTransformationEventName: 
+  registrationTransformationEventName: newRegistration
   newControllerPoseEventName: mainController
 --- !u!1001 &1423374425
 PrefabInstance:

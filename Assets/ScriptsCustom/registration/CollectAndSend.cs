@@ -72,13 +72,13 @@ public class CollectAndSend : MonoBehaviour
     {
 
         EventManager.StartListening(caliTrackerEventName, ChangeTrackerPose);
-        EventManager.StartListening(controllerEventName, ChangeTrackerPose);
+        EventManager.StartListening(controllerEventName, CheckControllerButton);
 
     }
     void OnDisable()
     {
         EventManager.StopListening(caliTrackerEventName, ChangeTrackerPose);
-        EventManager.StopListening(controllerEventName, ChangeTrackerPose);
+        EventManager.StopListening(controllerEventName, CheckControllerButton);
     }
 }
 public class CustomPose
