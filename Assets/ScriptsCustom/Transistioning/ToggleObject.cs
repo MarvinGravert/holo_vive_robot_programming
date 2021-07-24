@@ -5,11 +5,26 @@ using UnityEngine;
 public class ToggleObject : MonoBehaviour
 {
     public GameObject toggleObject;
-    private bool objectState=true;
-    
+    public List<GameObject> objectsToToggle;
+    public  bool initialObjectsState=true;
+
+    private void Awake()
+    {
+        foreach (var obj in objectsToToggle)
+        {
+            obj.SetActive(initialObjectsState);
+        }
+    }
     public void toggle()
     {
-        objectState = !objectState;
-        toggleObject.SetActive(objectState);
+        Debug.Log(initialObjectsState);
+        initialObjectsState = !initialObjectsState;
+        foreach (var obj in objectsToToggle)
+        {
+            obj.SetActive(initialObjectsState);
+        }
+        
+       
     }
+    
 }

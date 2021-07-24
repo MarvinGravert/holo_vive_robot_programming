@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
 
 public class CollectAndSend : MonoBehaviour
 {
-    public string startRegisteringEventName;
+    public string FinishedCollectingPointPairs;
     public string caliTrackerEventName;
     public string controllerEventName; //to use button input
 
@@ -15,6 +16,9 @@ public class CollectAndSend : MonoBehaviour
     private CustomPose caliTracker= new CustomPose(new Vector3(0,0,0),new Quaternion(0,0,0,1));
 
     public GameObject calibObjectKOS;
+    public TextMeshPro pointPairCounterText;
+    private int pointPairCounter = 0;
+
 
     private bool lastStateMenuButton = false;//use for collection
     private bool lastStateGripButton = false;//use to send to server
@@ -27,10 +31,12 @@ public class CollectAndSend : MonoBehaviour
             EventParam poses = new EventParam();
             poses.trackerPoses = trackerPoses;
             poses.calibObjectPoses = calibObjectPoses;
-            EventManager.TriggerEvent(startRegisteringEventName, poses);
+            EventManager.TriggerEvent(FinishedCollectingPointPairs, poses);
             //clear past poses afterwards=>new registering
             trackerPoses = new List<CustomPose>();
             calibObjectPoses = new List<CustomPose>();
+            pointPairCounter = 0;
+            pointPairCounterText.text = "Pairs:" + pointPairCounter.ToString();
         }
 
     }
@@ -45,6 +51,8 @@ public class CollectAndSend : MonoBehaviour
             calibObjectPoses.Add(test);
             // create new object as adding to list is just adding a reference and as we are changing the tracker oncstantly...
             trackerPoses.Add(caliTracker.CopyPose());
+            pointPairCounter++;
+            pointPairCounterText.text = "Pairs:" + pointPairCounter.ToString();
         }
     }
     void ChangeTrackerPose(EventParam newCaliTrackerPose)

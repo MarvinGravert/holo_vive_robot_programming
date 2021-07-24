@@ -6,8 +6,10 @@ using System.Globalization;
 public class ProcessRegistration : MonoBehaviour
 {
     // events to receive calibration data to send to server
-    public string startRegisteringEventName;
-    public string sendCalibrationEventName;
+    [Tooltip("Event triggered when point pairs were collected and triggered to be sent")]
+    public string pointPairsCollectedEvent;//test this
+    [Tooltip("Event containing the tcpIP message string to send to server")]
+    public string sendRegisteringToServerEvent;
     // events to process server response and publish it
     public string receivedRegistrationEventName;
     public string publishRegistrationEventName;
@@ -32,7 +34,7 @@ public class ProcessRegistration : MonoBehaviour
         
         EventParam poseString = new EventParam();
         poseString.tcpIPMessage = pointPairsAsStrings;
-        EventManager.TriggerEvent(sendCalibrationEventName, poseString);
+        EventManager.TriggerEvent(sendRegisteringToServerEvent, poseString);
     }
     string TurnPoseIntoString(CustomPose pose)
     {
@@ -69,14 +71,14 @@ public class ProcessRegistration : MonoBehaviour
     void OnEnable()
     {
 
-        EventManager.StartListening(startRegisteringEventName, ProcessPositionDataToString);
+        EventManager.StartListening(pointPairsCollectedEvent, ProcessPositionDataToString);
         EventManager.StartListening(receivedRegistrationEventName, ProcessTCPStringToRegistrationTransformation);
 
     }
     void OnDisable()
     {
 
-        EventManager.StopListening(startRegisteringEventName, ProcessPositionDataToString);
+        EventManager.StopListening(pointPairsCollectedEvent, ProcessPositionDataToString);
         EventManager.StopListening(receivedRegistrationEventName, ProcessTCPStringToRegistrationTransformation);
     }
 
