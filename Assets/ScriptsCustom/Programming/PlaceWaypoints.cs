@@ -42,7 +42,7 @@ public class PlaceWaypoints : MonoBehaviour
          */
         if (triggerButton == true && triggerLastState == false)
         {
-            PlaceWaypoint();
+            PlaceWaypoint(mainController.position,mainController.rotation);
 
         }
         triggerLastState = triggerButton;
@@ -69,18 +69,18 @@ public class PlaceWaypoints : MonoBehaviour
         }
     }
 
-    public void PlaceWaypoint()
+    public void PlaceWaypoint(Vector3 realPosition, Quaternion realRotation)
     {
         //triggerd when button pressed on controller
         /* Create referenceObject at location 
          * 
          */
 
-        var test = Instantiate(referenceWaypoint);
-        test.transform.position = controllerWaypointMarker.transform.position;
-        test.transform.rotation = controllerWaypointMarker.transform.rotation;
-
-        Waypoint newWaypoint = new Waypoint(test, InterpolationType.Linear);
+        var waypointModel = Instantiate(referenceWaypoint);
+        waypointModel.transform.position = controllerWaypointMarker.transform.position;
+        waypointModel.transform.rotation = controllerWaypointMarker.transform.rotation;
+        waypointModel.SetActive(true);
+        Waypoint newWaypoint = new Waypoint(waypointModel, InterpolationType.Linear,realPosition,realRotation);
         if (!linearTypeActive)
         {
             newWaypoint.type = InterpolationType.PTP;
@@ -178,12 +178,16 @@ public class Waypoint
 {
     public GameObject obj;
     public InterpolationType type;
+    public Vector3 realPosition;// Position in tracker space (untransformed)
+    public Quaternion realRotation;
 
-    public Waypoint(GameObject gObj, InterpolationType mtype)
+    public Waypoint(GameObject gObj, InterpolationType mtype,Vector3 mPos, Quaternion mRot)
     {
         obj = gObj;
        
         type = mtype;
+        realPosition = mPos;
+        realRotation = mRot;
     }
 }
 public enum InterpolationType

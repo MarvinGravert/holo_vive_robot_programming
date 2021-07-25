@@ -9,19 +9,20 @@ public class ProcessPath : MonoBehaviour
 
     void ProcessPathIntoString(EventParam waypoints)
     {
-        string s = "";
+        string pathAsString = "";
         foreach (var waypoint in waypoints.waypoints)
         {
-            var pos = waypoint.obj.transform.position;
-            var rot = waypoint.obj.transform.rotation;
+            var pos = waypoint.realPosition;
+            var rot = waypoint.realRotation;
             var type = waypoint.type;
 
-            s += PositionAndRotationAsString(pos, rot);
-            s += "|"+type.ToString()+"$";
+            pathAsString += PositionAndRotationAsString(pos, rot);
+            pathAsString += "|"+type.ToString()+"$";
         }
-        Debug.Log(s);
+        pathAsString = pathAsString.Remove(pathAsString.Length - 1);
+        Debug.Log(pathAsString);
         EventParam param = new EventParam();
-        param.tcpIPMessage = s;
+        param.tcpIPMessage = pathAsString;
         EventManager.TriggerEvent(pathPointsAsStringEvent, param);
     }
 
