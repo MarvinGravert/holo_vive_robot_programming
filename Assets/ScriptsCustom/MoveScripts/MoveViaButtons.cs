@@ -51,7 +51,7 @@ public class MoveViaButtons : MonoBehaviour
     }
     void readButtonStateAndMove(EventParam buttonState)
     {
-        Debug.Log(buttonState.buttonState);
+        //Debug.Log(buttonState.buttonState);
         float x_trackpad = buttonState.buttonState["x_trackpad"];
         float y_trackpad = buttonState.buttonState["y_trackpad"];
         bool triggerButton = Convert.ToBoolean(buttonState.buttonState["triggerButton"]);
