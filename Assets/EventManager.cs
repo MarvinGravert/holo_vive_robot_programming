@@ -33,6 +33,7 @@ public struct EventParam
     public Vector3 position;
     public Quaternion rotation;
     public Dictionary<string, float> buttonState; // boolean Values are encoded as 0.0 and 1.0
+    public List<Waypoint> waypoints;
 }
 //Main EventManager who keeps a dictionary of all events and their registered listeners. Other functions cann call its public methods to register themselves inside
 public class EventManager : MonoBehaviour
