@@ -15,7 +15,9 @@ public class SwitchScripts : MonoBehaviour
     private bool moveControllerScriptEnabeld = true;
     private bool lastStateMenuButton = false; 
 
-
+    /* Used to switch between moving the testControlelr with buttons or using its 6D location as reported by the Tracking System
+     * 
+     */
     void toggleActiveScript()
     {
         moveControllerScriptEnabeld = !moveControllerScriptEnabeld;
@@ -25,6 +27,7 @@ public class SwitchScripts : MonoBehaviour
     }
     void OnEnable()
     {
+        //listen to main Controller and disable the b
         EventManager.StartListening(mainControllerEvent, readMenuButtonAndToggle);
 
 

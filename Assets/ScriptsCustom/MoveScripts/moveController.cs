@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveController : MonoBehaviour
 {
-    private GameObject controller;
+ 
 
     // initiliase the registration transformation with a identy matrix
     private Quaternion registrationRotation=new Quaternion(0,0,0,1);
@@ -14,11 +14,13 @@ public class MoveController : MonoBehaviour
     public string registrationTransformationEventName;
     public string newControllerPoseEventName;
 
+    public GameObject objectToMove;
+
     void OnEnable()
     {
         EventManager.StartListening(newControllerPoseEventName, MoveToNewPose);
         EventManager.StartListening(registrationTransformationEventName, ChangeRegistration);
-        controller = this.gameObject;
+        
     }
 
     // Update is called once per frame
@@ -42,7 +44,7 @@ public class MoveController : MonoBehaviour
         // turn matrix to left handed by negating third row and third column
         Matrix4x4 controllerUnityWorld = ChangeHandedness(controllerHoloWorld);
         //Debug.Log(registrationMatrix);
-        MoveController.FromMatrix(controller, controllerUnityWorld);//TODO CHANGE THIS
+        MoveController.FromMatrix(objectToMove, controllerUnityWorld);//TODO CHANGE THIS
     }
 
     public static Matrix4x4 ChangeHandedness(Matrix4x4 matrix)
