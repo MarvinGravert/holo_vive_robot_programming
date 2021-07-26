@@ -31,12 +31,15 @@ public class CollectAndSend : MonoBehaviour
             EventParam poses = new EventParam();
             poses.trackerPoses = trackerPoses;
             poses.calibObjectPoses = calibObjectPoses;
-            EventManager.TriggerEvent(FinishedCollectingPointPairs, poses);
             //clear past poses afterwards=>new registering
             trackerPoses = new List<CustomPose>();
             calibObjectPoses = new List<CustomPose>();
             pointPairCounter = 0;
             pointPairCounterText.text = "Pairs:" + pointPairCounter.ToString();
+            // now send so it doesnt interferee
+            EventManager.TriggerEvent(FinishedCollectingPointPairs, poses);
+           
+            
         }
 
     }

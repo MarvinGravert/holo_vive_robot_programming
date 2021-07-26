@@ -5,7 +5,7 @@ using System;
 
 public class SwitchScripts : MonoBehaviour
 {
-    public string testControllerEvent;
+    public string mainControllerEvent;
 
     public GameObject testControllerObject;
     public GameObject coordinateSystem;
@@ -25,7 +25,7 @@ public class SwitchScripts : MonoBehaviour
     }
     void OnEnable()
     {
-        EventManager.StartListening(testControllerEvent, readMenuButtonAndToggle);
+        EventManager.StartListening(mainControllerEvent, readMenuButtonAndToggle);
 
 
         testControllerObject.GetComponent<MoveViaButtonsBetter>().enabled = false;
@@ -34,9 +34,9 @@ public class SwitchScripts : MonoBehaviour
         moveControllerScriptEnabeld = true;
 
     }
-    void readMenuButtonAndToggle(EventParam testControllerState)
+    void readMenuButtonAndToggle(EventParam mainControllerState)
     {
-        bool menuButton = Convert.ToBoolean(testControllerState.buttonState["menuButton"]);
+        bool menuButton = Convert.ToBoolean(mainControllerState.buttonState["menuButton"]);
 
         if (menuButton == true && lastStateMenuButton == false)
         {
@@ -47,6 +47,6 @@ public class SwitchScripts : MonoBehaviour
 
     void OnDisable()
     {
-        EventManager.StopListening(testControllerEvent, readMenuButtonAndToggle);
+        EventManager.StopListening(mainControllerEvent, readMenuButtonAndToggle);
     }
 }
