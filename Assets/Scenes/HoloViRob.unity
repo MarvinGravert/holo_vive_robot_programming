@@ -2927,7 +2927,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   newControllerEvent: mainController
   lowerIncrementStep: 0.001
-  upperIncrementStep: 1
+  upperIncrementStep: 2
   objectToMove: {fileID: 202087923}
   xAxis: {fileID: 1014104439}
   yAxis: {fileID: 1519686684}
@@ -3103,7 +3103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   newControllerEvent: mainController
   lowerIncrementStep: 0.001
-  upperIncrementStep: 0.1
+  upperIncrementStep: 1.3
   objectToMove: {fileID: 233477208}
   xAxis: {fileID: 1755066998}
   yAxis: {fileID: 195258623}
@@ -6506,7 +6506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   registrationTransformationEventName: newRegistration
   newControllerPoseEventName: robot
-  objectToMove: {fileID: 1467144186}
+  objectToMove: {fileID: 470286368}
 --- !u!1 &475789603
 GameObject:
   m_ObjectHideFlags: 0
@@ -13450,7 +13450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf74b7aae84068b4e8e499b078383797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ipTCPHost: 127.0.0.1
+  ipTCPHost: 192.168.137.1
   portTCPHost: 15004
   tcpMessageEventName: tcpMessage
   updateInterval: 25
@@ -13481,7 +13481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sendCalibrationEventName: pathPointsAsString
-  ipTCPHost: 127.0.0.1
+  ipTCPHost: 192.168.137.1
   portTCPHost: 15006
 --- !u!114 &956309312
 MonoBehaviour:
@@ -13497,7 +13497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sendPointPairsEventName: registerToServer
   newRegistrationEventName: registrationResponse
-  ipTCPHost: 127.0.0.1
+  ipTCPHost: 192.168.137.1
   portTCPHost: 15005
 --- !u!1 &959822163
 GameObject:
